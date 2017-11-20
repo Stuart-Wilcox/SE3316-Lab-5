@@ -1,0 +1,19 @@
+{
+  "name": "se3316_lab5",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Stuart-Wilcox/swilcox_SE3316_Lab5.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Stuart-Wilcox/swilcox_SE3316_Lab5/issues"
+  },
+  "homepage": "https://github.com/Stuart-Wilcox/swilcox_SE3316_Lab5#readme"
+}
