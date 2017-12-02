@@ -1,0 +1,14 @@
+h1, a, div{
+  text-align: center;
+}
+
+.menu{
+  margin-top: 30px;
+  margin-bottom: 20px;
+}
+
+.name{
+  margin-top: 20px;
+  margin-bottom: 10px;
+  font-size: 5em;
+}

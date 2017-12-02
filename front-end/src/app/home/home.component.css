@@ -1,0 +1,13 @@
+.page-header{
+  margin-top: 30px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+div, p{
+  text-align: center;
+}
+
+.content{
+  margin-top: 30px; 
+}

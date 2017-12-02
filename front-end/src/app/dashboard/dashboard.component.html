@@ -1,0 +1,24 @@
+<span *ngIf="loading">Loading...</span>
+<span *ngIf="!loading">
+  <h1 class="name">{{user.name}}</h1>
+  <div class="row menu">
+    <div class="col-lg-4 col-md-4 col-sm-2 col-xs-0"></div>
+    <div class="col-lg-4 col-md-4 col-sm-8 col-xs-12">
+      <a href="/logout">Logout</a>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-3 col-md-2 col-sm-1 col-xs-0"></div>
+    <div class="col-lg-6 col-md-8 col-sm-10 col-xs-12">
+      <div class="card">
+        <div class="card-header"><h3>Image Collections</h3></div>
+        <div class="card-body">
+          You have no image collections.
+        </div>
+        <div class="card-footer">
+          <a href="/{{user.id}}/dashboard/add-collection"><button class="btn btn-primary">Add Collection</button></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</span>

@@ -1,0 +1,33 @@
+<div class="page-header" style="text-align:center;">
+  <h1>Register</h1>
+</div>
+<div *ngIf="!registered" class="row">
+  <div class="col-lg-4 col-md-3 col-sm-0 col-xs-0"></div>
+  <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
+    <form method="post" (submit)='validateInput($event, name.value, email.value, password.value, password2.value)'>
+      <input #name type="text" class="form-control" id="name" name="name" placeholder="Name" />
+      <br />
+      <input #email type="email" class="form-control" id="email" name="email" placeholder="Email" />
+      <br />
+      <input #password type="password" class="form-control" id="password" name="password" placeholder="Password" />
+      <br />
+      <input #password2 type="password" class="form-control" id="password2" name="password2" placeholder="Password (Again)" />
+      <br />
+      <button class="btn btn-primary" role="button" type="submit">Register</button>
+    </form>
+    <br *ngIf="err" />
+    <div *ngIf="err" class="alert alert-danger" >{{ errMsg }}</div>
+    <br />
+    <br />
+    <p>
+      Already have an account?
+      <a href="/login">Click here to log in.</a>
+    </p>
+  </div>
+</div>
+<div *ngIf="registered" class="row">
+  <div class="col-lg-4 col-md-3 col-sm-0 col-xs-0"></div>
+  <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
+    Follow <a href="{{activationUrl}}">this link</a> to activate your account.
+  </div>
+</div>

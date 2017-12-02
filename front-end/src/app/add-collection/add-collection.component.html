@@ -1,0 +1,46 @@
+<span *ngIf="loading">Loading...</span>
+<span *ngIf="!loading">
+  <div class="page-header">
+    <h1>{{user.name}}</h1>
+  </div>
+  <div class="row menu">
+    <div class="col-lg-4 col-md-4 col-sm-2 col-xs-0"></div>
+    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-6">
+      <a href="/{{user.id}}/dashboard">Dashboard</a>
+    </div>
+    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-6">
+      <a href="/logout">Logout</a>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-3 col-md-2 col-sm-1 col-xs-0"></div>
+    <div class="col-lg-6 col-md-8 col-sm-10 col-xs-12">
+      <div class="card">
+        <div class="card-header">
+          <h3>Add New Collection</h3>
+        </div>
+        <div class="card-body">
+          <form (submit)="validateInput($event, name.value, description.value, visibility.value)">
+            <input #name name="name" class="form-control" type="text" placeholder="Collection Name" />
+            <br />
+            <div class="form-group">
+              <textarea #description name="description" class="form-control" placeholder="Description" rows="3"></textarea>
+            </div>
+            <br />
+            <div class="form-group">
+              <select #visibility name="visibility" class="form-control">
+                <option value="private" selected>Private</option>
+                <option value="public">Public</option>
+              </select>
+            </div>
+            <br />
+            <button role="button" type="submit" class="btn btn-primary">Create</button>
+          </form>
+          <br *ngIf="err" />
+          <div *ngIf="err" class="alert alert-danger" >{{ errMsg }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</span>

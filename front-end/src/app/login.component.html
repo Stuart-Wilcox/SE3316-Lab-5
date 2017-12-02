@@ -1,0 +1,23 @@
+<div class="page-header" style="text-align:center;">
+  <h1>Login</h1>
+</div>
+<div class="row">
+  <div class="col-lg-4 col-md-3 col-sm-0 col-xs-0"></div>
+  <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
+    <form method="post" (submit)='validateInput($event, email.value, password.value)'>
+      <input #email type="email" class="form-control" id="email" name="email" placeholder="Email" />
+      <br />
+      <input #password type="password" class="form-control" id="password" name="password" placeholder="Password" />
+      <br />
+      <button class="btn btn-primary" role="button" type="submit">Login</button>
+    </form>
+    <br *ngIf="loginErr" />
+    <div *ngIf="loginErr" class="alert alert-danger" ><span *ngIf="loginErr">{{loginErrMsg}}</span></div>
+    <br/>
+    <br />
+    <p>
+      Don't have an account yet?
+      <a href="/register">Click here to register.</a>
+    </p>
+  </div>
+</div>

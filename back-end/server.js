@@ -10,8 +10,10 @@ let passport = require('passport');
 let LocalStrategy = require('passport-local').Strategy;
 let mongoose = require('mongoose');
 let User = require(path.join(__dirname, '/models/User'));
+let Collection = require(path.join(__dirname, '/models/Collection'));
 let jwt = require("express-jwt");
 let ctrlProfile = require(path.join(__dirname, '/controllers/profile'));
+let ctrlCollections = require(path.join(__dirname, '/controllers/collections'));
 
 //===GLOBAL VARIABLES===
 let app = express();
@@ -19,10 +21,15 @@ let router = express.Router();
 let port = process.env.PORT || 8080;
 let auth = jwt({
     secret: "MY_SECRET",
-    userProperty: 'payload'
-})
+    userProperty: 'payload',
+    getToken: function fromCookies(req){
+      let t = req.cookies.token || "";
+      return t;
+    }
+});
 
 //===CONFIGURATIONS===
+app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 mongoose.Promise = global.Promise;
@@ -57,9 +64,11 @@ router.route("/register")
     let user = new User();
     user.name = req.body.name;
     user.email = req.body.email;
-    
+
     user.setPassword(req.body.password);
-    
+
+    user.locked = true;
+
     user.save(function(err){
         if(err){
             res.status(400).json({
@@ -67,11 +76,9 @@ router.route("/register")
             });
             return;
         }
-        let token;
-        token = user.generateJwt();
-        res.json({
-            "token":token
-        })
+        res.status(200).json({
+            url:"/accounts/activate/"+user._id
+        });
     })
 });
 
@@ -83,12 +90,17 @@ router.route("/login")
            res.status(404).json(err);
            return;
        }
-       
+
        if(user){
+          if(user.locked){
+            res.status(401).json({message:"account locked"});
+          }else{
            token = user.generateJwt();
            res.status(200).json({
-               "token":token
+                id: user._id,
+               token: token
            });
+         }
        }
        else{
            res.status(401).json(info);
@@ -103,7 +115,7 @@ router.route("/remove-profile")
           res.status(404).json(err);
           return;
       }
-       
+
       if(user){
           //delete user
           User.remove({email: req.body.email}, function(err, _user){
@@ -112,7 +124,7 @@ router.route("/remove-profile")
                   return;
               }
               res.status(200).json({
-                  "message": "User deleted"
+                  message: "User deleted"
               })
           });
       }
@@ -122,20 +134,121 @@ router.route("/remove-profile")
   })(req, res, next);
 });
 
-router.route("/profile/:userId")
+router.route("/accounts/activate/:id")
+.get(function(req, res){
+  let id = req.params.id;
+  User.findById(id, function(err, user){
+    if(err){
+      res.send(err);
+    }
+    else if(user.locked){
+      user.locked = false;
+      user.save(function(err){
+        if(err){
+          res.status(500).json({message:err.message});
+        }else{
+          res.status(200).json({message:"unlocked successfully"});
+        }
+      });
+    }else{
+      res.status(200).json({message: "already unlocked"});
+    }
+  });
+})
+
+router.route("/profile")
 .get(auth, ctrlProfile.profileRead);
+
+router.route("/collections/")
+.post(auth, ctrlCollections.addCollection)
+.get(auth, ctrlCollections.getCollections);
+
+router.route("/collections/:id")
+.get(auth, ctrlCollections.getCollection)
+.put(auth, ctrlCollections.updateCollection)
+.delete(auth, ctrlCollections.deleteCollection);
+
+router.route("/collections/:id/upvote")
+.post(auth, ctrlCollections.upvoteCollection);
+
+//===DEV ONLY! REMOVE IN PROD==//
+router.route("/users")
+.get(function(req, res){
+  User.find(function(users, err){
+    if(err){
+      res.send(err);
+    }
+    else{
+      res.json(users);
+    }
+  });
+})
+.post(function(req, res){
+  let user = new User();
+  user.name = req.body.name;
+  user.email = req.body.email;
+  user.setPassword(req.body.password);
+
+  user.save(function(err){
+    if(err){
+      res.send(err);
+    }else{
+      res.json({
+        message: "User created"
+      });
+    }
+  });
+})
+.delete(function(req, res){
+  User.remove({_id:req.body.id}, function(err, user){
+    if(err){
+      res.send(err);
+    }else{
+      res.json({
+        message: `${user.name} deleted`
+      })
+    }
+  });
+})
+.put(function(req, res){
+  User.findById(req.body.id, function(err, user){
+    if(err){
+      res.send(err);
+    }else{
+      if(req.body.name){
+        user.name = req.body.name;
+      }
+      if(req.body.email){
+        user.email = req.body.email;
+      }
+      if(req.body.password){
+        user.setPassword(req.body.password);
+      }
+      user.save(function(err){
+        if(err){
+          res.send(err);
+        }
+        else{
+          res.json({
+            message: `${user.name} updated`
+          });
+        }
+      });
+    }
+  });
+});
 
 
 //===LISTEN===
 app.use(passport.initialize());
 app.use('/', function(req, res, next){
-  console.log(`[${req.method}] ${req.originalUrl}`); 
+  console.log(`[${req.method}] ${req.originalUrl}`);
   next();
 });
 app.use(function(err, req, res, next){
    if(err.name === 'UnauthorizedError'){
        res.status(401).json({
-           "message": err.name + ": " + err.message
+           message: err.name + ": " + err.message
        });
        return;
    }
