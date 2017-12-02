@@ -1,46 +1,46 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { DashboardService } from '../dashboard.service';
+import { AddCollectionService } from '../add-collection.service';
 
 @Component({
   selector: 'app-add-collection',
   templateUrl: './add-collection.component.html',
   styleUrls: ['./add-collection.component.css'],
-  providers: [DashboardService]
+  providers: [DashboardService, AddCollectionService]
 })
 export class AddCollectionComponent implements OnInit {
   loading: boolean;
   user: object;
   err: boolean;
   errMsg: string;
-  constructor(private dashboardService: DashboardService, private router: Router) {
+  constructor(private dashboardService: DashboardService, private router: Router, private addCollectionService: AddCollectionService) {
     this.loading=true;
     this.user = null;
     this.err = false;
     this.errMsg="";
   }
 
-  ngOnInit() {
-        /* referenced from stack overflow https://stackoverflow.com/questions/10730362/get-cookie-by-name*/
-        function getCookie(cname) {
-          var name = cname + "=";
-          var decodedCookie = decodeURIComponent(document.cookie);
-          var ca = decodedCookie.split(';');
-          for(var i = 0; i <ca.length; i++) {
-              var c = ca[i];
-              while (c.charAt(0) == ' ') {
-                  c = c.substring(1);
-              }
-              if (c.indexOf(name) == 0) {
-                  return c.substring(name.length, c.length);
-              }
-          }
-          return "";
+  getCookie(cname) {/* referenced from stack overflow https://stackoverflow.com/questions/10730362/get-cookie-by-name*/
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for(var i = 0; i <ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
         }
-        /* copied from stack overflow*/
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+  }
+
+  ngOnInit() {
 
         let urlId = this.router.url.split("/")[1];
-        let token = getCookie('token')||"";
+        let token = this.getCookie('token')||"";
 
         if(token != ""){
           this.dashboardService.getUserData(token).subscribe(
@@ -80,6 +80,15 @@ export class AddCollectionComponent implements OnInit {
         this.errMsg = "";
         console.log(name, description, visibility);
         //invoke addCollectionService to add collection
+        this.addCollectionService.addCollection(this.getCookie("token"), name, description, visibility).subscribe(
+        data=>{
+          if(data['message']=="Collection created"){
+            this.router.navigate([`/${this.user['_id']}/dashboard`]);
+          }
+        },
+        err=>{
+          console.log(err);
+        });
       }
     }
 

@@ -12,6 +12,7 @@ import { RegisterComponent } from './register/register.component';
 import { ActivateComponent } from './activate/activate.component';
 import { HomeComponent } from './home/home.component';
 import { AddCollectionComponent } from './add-collection/add-collection.component';
+import { ViewCollectionComponent } from './view-collection/view-collection.component';
 
 const appRoutes:Routes = [
   {
@@ -35,6 +36,10 @@ const appRoutes:Routes = [
     component: AddCollectionComponent
   },
   {
+    path: ':user_id/collections/:collection_id',
+    component: ViewCollectionComponent
+  },
+  {
     path: 'logout',
     component: LogoutComponent
   },
@@ -53,7 +58,8 @@ const appRoutes:Routes = [
     RegisterComponent,
     ActivateComponent,
     HomeComponent,
-    AddCollectionComponent
+    AddCollectionComponent,
+    ViewCollectionComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),

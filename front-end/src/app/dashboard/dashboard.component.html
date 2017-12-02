@@ -11,9 +11,24 @@
     <div class="col-lg-3 col-md-2 col-sm-1 col-xs-0"></div>
     <div class="col-lg-6 col-md-8 col-sm-10 col-xs-12">
       <div class="card">
-        <div class="card-header"><h3>Image Collections</h3></div>
+        <div class="card-header"><h2>Image Collections</h2></div>
         <div class="card-body">
-          You have no image collections.
+          <span *ngIf="!noCollections">
+          <div *ngFor="let collection of collections" class="row">
+              <div class="col-12">
+                <a href="/{{user.id}}/collections/{{collection._id}}/">
+                <div class="card">
+                  <div class="card-block">
+                    <h3 class="card-title">{{collection.name}}</h3>
+                    <div class="card-text">{{collection.description}}</div>
+                  </div>
+                </div>
+                <br />
+                </a>
+              </div>
+          </div>
+        </span>
+          <span *ngIf="noCollections">No collections to display</span>
         </div>
         <div class="card-footer">
           <a href="/{{user.id}}/dashboard/add-collection"><button class="btn btn-primary">Add Collection</button></a>

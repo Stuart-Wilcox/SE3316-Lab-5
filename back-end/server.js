@@ -159,9 +159,9 @@ router.route("/accounts/activate/:id")
 router.route("/profile")
 .get(auth, ctrlProfile.profileRead);
 
-router.route("/collections/")
+router.route("/collections")
 .post(auth, ctrlCollections.addCollection)
-.get(auth, ctrlCollections.getCollections);
+.get(ctrlCollections.getCollections);
 
 router.route("/collections/:id")
 .get(auth, ctrlCollections.getCollection)
@@ -170,6 +170,9 @@ router.route("/collections/:id")
 
 router.route("/collections/:id/upvote")
 .post(auth, ctrlCollections.upvoteCollection);
+
+router.route("/:id/collections")
+.get(auth, ctrlCollections.getUserCollections);
 
 //===DEV ONLY! REMOVE IN PROD==//
 router.route("/users")

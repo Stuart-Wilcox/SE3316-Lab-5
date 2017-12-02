@@ -18,7 +18,7 @@ let ctrlCollections = {
       }else if(visibility == null || visibility==undefined){
         res.status(400).json({message:"Missing visibility"});
       }else{
-        let collection = new Collction();
+        let collection = new Collection();
         collection.name = name;
         collection.description = description;
         collection.public = visibility=="public";
@@ -148,7 +148,7 @@ let ctrlCollections = {
           res.status(400).json(err);
         }else if(!collection.public){
           //collection is private so nobody can upvote it
-          res.status(400).json(message:"Private collections cannot be upvoted");
+          res.status(400).json({message:"Private collections cannot be upvoted"});
         }else if(collection.user_id == res.payload._id){
           //user must not be owner
           res.status(400).json({message:"Owner cannot upvote their own collection"});
@@ -169,7 +169,23 @@ let ctrlCollections = {
             }
           });
         }
-      })
+      });
+    }
+  },
+  getUserCollections(req, res){
+    if(!req.payload){
+      //not signed in
+      res.status(401).json({message:"Must sign in to view collection"});
+    }else{
+      let id = req.params.id;//user id
+
+      Collection.find({user_id:req.payload._id}, function(err, collections){
+        if(err){
+          res.status(400).json(err);
+        }else{
+          res.status(200).json(collections);
+        }
+      }).sort({rating: -1})
     }
   }
 }
