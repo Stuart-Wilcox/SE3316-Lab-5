@@ -1,0 +1,44 @@
+<span *ngIf="loading">Loading...</span>
+<span *ngIf="!loading">
+  <div class="page-header">
+    <h1>{{user.name}}</h1>
+  </div>
+  <div class="row menu">
+    <div class="col-lg-4 col-md-4 col-sm-2 col-xs-0"></div>
+    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-6">
+      <a href="/{{user.id}}/dashboard">Dashboard</a>
+    </div>
+    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-6">
+      <a *ngIf="user.name!='Guest'" href="/logout">Logout</a>
+      <a *ngIf="user.name=='Guest'" href="/login">Login</a>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-1 col-md-1 col-sm-1 col-xs-0"></div>
+    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
+      <div class="card">
+        <div class="card-header">
+          <h3>Search</h3>
+          <form (submit)="validateInput($event, name.value)" class="form-inline justify-content-center">
+            <div class="form-group">
+              <input #name name="name" id="name" type="text" placeholder="Search Phrase" class="form-control" />
+              &nbsp;&nbsp;
+              <button role="button" type="submit" class="btn btn-primary">Search</button>
+            </div>
+          </form>
+        </div>
+        <div class="card-body">
+          <span *ngIf="results[0].length==0">Search results will appear here...</span>
+          <span *ngIf="results[0].length!=0">
+            <div class="_row">
+              <div *ngFor="let imageRow of results ; index as oi" class="_column">
+                <img *ngFor="let image of imageRow ; index as oj"  src="{{image}}" id="image{{oi}}{{oj}}" class="search-image" (click)="selectImage($event)" />
+              </div>
+            </div>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</span>

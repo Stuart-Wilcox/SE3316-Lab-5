@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-const API_URL = 'http://127.0.0.1:8080/'
 
 @Injectable()
 export class DashboardService {

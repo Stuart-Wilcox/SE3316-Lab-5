@@ -13,6 +13,7 @@ import { ActivateComponent } from './activate/activate.component';
 import { HomeComponent } from './home/home.component';
 import { AddCollectionComponent } from './add-collection/add-collection.component';
 import { ViewCollectionComponent } from './view-collection/view-collection.component';
+import { SearchComponent } from './search/search.component';
 
 const appRoutes:Routes = [
   {
@@ -28,6 +29,10 @@ const appRoutes:Routes = [
     component: LoginComponent
   },
   {
+    path:'search',
+    component: SearchComponent
+  },
+  {
     path: ':id/dashboard',
     component: DashboardComponent
   },
@@ -36,7 +41,7 @@ const appRoutes:Routes = [
     component: AddCollectionComponent
   },
   {
-    path: ':user_id/collections/:collection_id',
+    path: 'collections/:collection_id',
     component: ViewCollectionComponent
   },
   {
@@ -59,7 +64,8 @@ const appRoutes:Routes = [
     ActivateComponent,
     HomeComponent,
     AddCollectionComponent,
-    ViewCollectionComponent
+    ViewCollectionComponent,
+    SearchComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),

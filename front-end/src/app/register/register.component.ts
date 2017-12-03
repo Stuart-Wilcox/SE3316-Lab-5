@@ -28,18 +28,23 @@ export class RegisterComponent implements OnInit {
     if(!name){
       this.err = true;
       this.errMsg = "Please enter name.";
+      return;
     }else if(!email){
       this.err = true;
       this.errMsg = "Please enter email.";
+      return;
     }else if(!password){
       this.err=true;
       this.errMsg = "Please enter password";
+      return;
     }else if(password.length < 6){
       this.err = true;
       this.errMsg = "Passwords must be at least 6 chacters long";
+      return;
     }else if(password != password2){
       this.err = true;
       this.errMsg = "Passwords do not match.";
+      return;
     }else{
       this.err=false;
       this.errMsg = "";

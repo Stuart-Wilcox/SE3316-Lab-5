@@ -16,7 +16,7 @@
           <span *ngIf="!noCollections">
           <div *ngFor="let collection of collections" class="row">
               <div class="col-12">
-                <a href="/{{user.id}}/collections/{{collection._id}}/">
+                <a href="/collections/{{collection._id}}/">
                 <div class="card">
                   <div class="card-block">
                     <h3 class="card-title">{{collection.name}}</h3>

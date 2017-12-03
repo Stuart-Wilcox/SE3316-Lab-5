@@ -19,9 +19,24 @@ let ctrlCollections = require(path.join(__dirname, '/controllers/collections'));
 let app = express();
 let router = express.Router();
 let port = process.env.PORT || 8080;
+app.use(function(err, req, res, next){
+  console.log("ERROR HANDLER!!!!")
+   if(err.name === 'UnauthorizedError'){
+       res.status(401).json({
+           message:"Unauthorized"
+       });
+       return;
+   }
+   next(err);
+});
 let auth = jwt({
     secret: "MY_SECRET",
     userProperty: 'payload',
+    fail:function failure(req, res, next){
+      if(!req.cookies.token){
+        res.status(401).json({error:"Unauthorized Error"});
+      }
+    },
     getToken: function fromCookies(req){
       let t = req.cookies.token || "";
       return t;
@@ -164,6 +179,7 @@ router.route("/collections")
 .get(ctrlCollections.getCollections);
 
 router.route("/collections/:id")
+.post(auth, ctrlCollections.addImageToCollection)
 .get(auth, ctrlCollections.getCollection)
 .put(auth, ctrlCollections.updateCollection)
 .delete(auth, ctrlCollections.deleteCollection);
@@ -247,15 +263,6 @@ app.use(passport.initialize());
 app.use('/', function(req, res, next){
   console.log(`[${req.method}] ${req.originalUrl}`);
   next();
-});
-app.use(function(err, req, res, next){
-   if(err.name === 'UnauthorizedError'){
-       res.status(401).json({
-           message: err.name + ": " + err.message
-       });
-       return;
-   }
-   next();
 });
 app.use('/api', router);
 app.listen(port);

@@ -76,6 +76,8 @@ export class AddCollectionComponent implements OnInit {
         this.err = true;
         this.errMsg = "Please select a visibility.";
       }else{
+        name = name.replace("<", "&lt;").replace(">", "&gt");
+        description = description.replace("<", "&lt;").replace(">", "&gt");
         this.err = false;
         this.errMsg = "";
         console.log(name, description, visibility);

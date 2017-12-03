@@ -187,6 +187,36 @@ let ctrlCollections = {
         }
       }).sort({rating: -1})
     }
+  },
+  addImageToCollection(req, res){
+    if(!req.payload){
+      //not signed in
+      res.status(401).json({message:"Must sign in to add images to collection"});
+    }else{
+      let collection_id = req.params.id;
+
+      Collection.findById(collection_id, function(err, collection){
+        if(err){
+          //not found, probably
+          res.status(400).json(err);
+        }else if(collection.user_id != req.payload._id){
+          //user is signed in but not the owner of the collection
+          res.status(401).json({message:"Must be owner to add images to collection"});
+        }else if(!req.body.image_id){
+          //the owner made a request to add an image without supplying an image_id
+          res.status(400).json({message:"No image id supplied"});
+        }else{
+          collection.image_id.push(req.body.image_id);
+          collection.save(function(err){
+            if(err){
+              res.status(500).json(err);
+            }else{
+              res.status(200).json({message:"Successfully added image to collection"});
+            }
+          });
+        }
+      });
+    }
   }
 }
 
