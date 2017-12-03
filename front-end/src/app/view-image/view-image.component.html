@@ -1,5 +1,5 @@
-<span *ngIf="loading">Loading...</span>
-<span *ngIf="!loading">
+<span *ngIf="job[0]!=job[1]">Loading...</span>
+<span *ngIf="job[0]==job[1]">
   <div class="page-header">
     <h1>{{user.name}}</h1>
   </div>
@@ -25,6 +25,16 @@
         </div>
         <div class="card-body">
           <img src="{{nasa_object.asset.collection.items[0].href}}" class="display-image" />
+        </div>
+        <h3>Add This Image to A Collection</h3>
+        <div class="card-footer">
+          <form class="form-inline justify-content-center" (submit)="addToCollection($event, collectionId.value)">
+            <select #collectionId name="collectionId" class="form-control">
+              <option value="null" style="opacity:0.7;">Select a collection</option>
+              <option *ngFor="let collection of collections" value="{{collection._id}}">{{collection.name}}</option>
+            </select>&nbsp;&nbsp;
+            <button type="submit" role="button" class="btn btn-primary"> Add to Collection</button>
+          </form>
         </div>
       </div>
     </div>
