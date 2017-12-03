@@ -14,6 +14,7 @@ import { HomeComponent } from './home/home.component';
 import { AddCollectionComponent } from './add-collection/add-collection.component';
 import { ViewCollectionComponent } from './view-collection/view-collection.component';
 import { SearchComponent } from './search/search.component';
+import { ViewImageComponent } from './view-image/view-image.component';
 
 const appRoutes:Routes = [
   {
@@ -45,6 +46,10 @@ const appRoutes:Routes = [
     component: ViewCollectionComponent
   },
   {
+    path: 'images/:image_id',
+    component: ViewImageComponent
+  },
+  {
     path: 'logout',
     component: LogoutComponent
   },
@@ -65,7 +70,8 @@ const appRoutes:Routes = [
     HomeComponent,
     AddCollectionComponent,
     ViewCollectionComponent,
-    SearchComponent
+    SearchComponent,
+    ViewImageComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),

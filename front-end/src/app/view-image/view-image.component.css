@@ -49,33 +49,9 @@ a{
    }
 }
 
-.img-wrap {
-  position: relative;
-}
-
-.image-description{
-  position: absolute;
-  top: 12px;
-  bottom: -16px;
-  left: 0;
-  right: 0;
-  background: rgba(29, 106, 154, 0.72);
-  color: #fff;
-  visibility: hidden;
-  transition: opacity .2s, visibility .2s;
-}
-
-.img-wrap:hover{
-  opacity: 0.4;
-}
-
-.img-wrap:hover .image-description {
-  visibility: visible;
-  cursor: default;
-  color: #fff;
-  opacity:1.0;
-}
-
-.search-image:hover{
-  //opacity: 0.7;
+.display-image{
+  min-width: 20%;
+  min-height: 20%;
+  max-width: 100%;
+  max-height: 100%;
 }

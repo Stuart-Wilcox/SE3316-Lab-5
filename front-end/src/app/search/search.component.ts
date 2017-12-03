@@ -30,11 +30,16 @@ export class SearchComponent implements OnInit {
       this.searchService.search(q).subscribe(
         data=>{
           //data will be huge probably
+          console.log(data);
            for(let i = 0; i < data['collection'].items.length; i++){
-            let item = data['collection'].items[i];
-            if(item.links[0].render=="image"){
-              this.results[i%4].push(item.links[0].href);
-            }
+             try{
+               let item = data['collection'].items[i];
+               if(item.links[0].render=="image"){
+                 this.results[i%4].push({url: item.links[0].href, description:item.data[0].description, asset_id:item.data[0].nasa_id});
+               }
+             }catch(e){
+               continue;
+             }
            }
         },
         err=>{
@@ -61,7 +66,7 @@ export class SearchComponent implements OnInit {
   }
 
   selectImage(event){
-    console.log(event.target);
+    console.log(event.target.src.split("/")[4]);
   }
 
   ngOnInit() {
