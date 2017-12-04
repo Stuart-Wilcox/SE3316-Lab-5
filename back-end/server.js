@@ -11,9 +11,9 @@ let LocalStrategy = require('passport-local').Strategy;
 let mongoose = require('mongoose');
 let User = require(path.join(__dirname, '/models/User'));
 let Collection = require(path.join(__dirname, '/models/Collection'));
-let jwt = require("express-jwt");
 let ctrlProfile = require(path.join(__dirname, '/controllers/profile'));
 let ctrlCollections = require(path.join(__dirname, '/controllers/collections'));
+let auth = require(path.join(__dirname, '/config/jwt'));
 
 //===GLOBAL VARIABLES===
 let app = express();
@@ -28,19 +28,6 @@ app.use(function(err, req, res, next){
        return;
    }
    next(err);
-});
-let auth = jwt({
-    secret: "MY_SECRET",
-    userProperty: 'payload',
-    fail:function failure(req, res, next){
-      if(!req.cookies.token){
-        res.status(401).json({error:"Unauthorized Error"});
-      }
-    },
-    getToken: function fromCookies(req){
-      let t = req.cookies.token || "";
-      return t;
-    }
 });
 
 //===CONFIGURATIONS===

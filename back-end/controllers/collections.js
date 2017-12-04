@@ -57,7 +57,7 @@ let ctrlCollections = {
   getCollection(req, res){/* GET /api/collections/:id */
     let id = req.params.id;
     try{
-      auth(req, res);
+      console.log(auth(req, res));
       Collection.findById(id, function(err, collection){
         if(err){
           res.status(400).json(err);
@@ -72,6 +72,8 @@ let ctrlCollections = {
               //not signed in
               res.status(401).json({message:"Sign in to view"});
             }else if(req.payload._id != collection.user_id){
+              console.log(req.payload._id);
+              console.log(collection.user_id);
               res.status(401).json({message:"Private collection"});
             }else{
               res.status(200).json(collection);
@@ -89,6 +91,8 @@ let ctrlCollections = {
             //collection is public so we return it
             res.status(200).json(collection);
           }else{
+            //console.log(req.payload._id);
+            //console.log(collection.user_id);
             res.status(401).json({message:"Private collection"});
           }
         }

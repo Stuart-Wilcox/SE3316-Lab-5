@@ -94,7 +94,7 @@ export class ViewCollectionComponent implements OnInit {
 
     this.viewCollectionService.removeCollection(this.getCookie("token"), this.collection['_id']).subscribe(
       data=>{
-        this.router.navigate([`/${this.user._id}/dashboard`]);
+        this.router.navigate([`/${this.user['_id']}/dashboard`]);
       },
       err=>{
         console.log(err);
