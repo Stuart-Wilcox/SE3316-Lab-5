@@ -1,11 +1,12 @@
 <span *ngIf="loading">Loading...</span>
 <span *ngIf="!loading">
   <h1 class="name">{{user.name}}</h1>
-  <div class="row menu">
-    <div class="col-lg-4 col-md-4 col-sm-2 col-xs-0"></div>
-    <div class="col-lg-4 col-md-4 col-sm-8 col-xs-12">
-      <a href="/logout">Logout</a> &nbsp;&nbsp;<a href="/search">Search</a>
-    </div>
+  <div class="menu">
+    <a href="/home">Home</a>
+    <a href="/{{user.id}}/dashboard">Dashboard</a>
+    <a href="/public-collections">Gallery</a>
+    <a href="/search">Search</a>
+    <a href="/logout">Logout</a>
   </div>
   <div class="row">
     <div class="col-lg-3 col-md-2 col-sm-1 col-xs-0"></div>

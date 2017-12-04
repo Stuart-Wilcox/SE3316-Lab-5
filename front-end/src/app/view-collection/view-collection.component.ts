@@ -15,6 +15,7 @@ export class ViewCollectionComponent implements OnInit {
   collection: object;
   images: object;
   authorized: boolean;
+  alreadyLiked: boolean;
   constructor(private viewCollectionService: ViewCollectionService, private dashboardService: DashboardService, private router:Router) {
     this.job = [];
     this.user = null;
@@ -47,9 +48,13 @@ export class ViewCollectionComponent implements OnInit {
         console.log(data);
         if(data['message']=="Upvote successful"){
           this.collection['rating']++;
+          this.alreadyLiked=true;
         }
       },
       err=>{
+        if(err['error'].message=="Only allowed to upvote once"){
+          this.alreadyLiked=true;
+        }
         console.log(err);
       }
     );
@@ -69,7 +74,7 @@ export class ViewCollectionComponent implements OnInit {
       err => {
             this.job[0]++;
             this.authorized = false;
-            console.log("err", err);
+
         }
     );
 
@@ -79,7 +84,9 @@ export class ViewCollectionComponent implements OnInit {
         for(let i = 0; i < this.collection['image_id'].length; i++){
           this.images[Math.floor(i/4)][i%4]=this.collection['image_id'][i];
         }
-
+        if(this.authorized){
+          this.alreadyLiked = this.collection['upvoters'].includes(this.user['id']);
+        }
         this.job[0]++;
       },
       err=>{

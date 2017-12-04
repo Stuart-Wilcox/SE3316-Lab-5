@@ -53,7 +53,7 @@ export class DashboardComponent implements OnInit {
             this.loading=false;
             if(data.id == urlId){
               this.user=data;
-              console.log(data);
+              //console.log(data);
             }else{
               this.user={name:"Private Profile"};
               console.log("private profile");
@@ -69,7 +69,7 @@ export class DashboardComponent implements OnInit {
       //get the user's collection data
       this.dashboardService.getUserCollection(token, urlId).subscribe(
       data=>{
-        console.log(data);
+        //console.log(data);
         if(data['length']==0){
           console.log("empty");
           this.noCollections=true;

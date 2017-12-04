@@ -1,50 +1,52 @@
 <span *ngIf="job[0]!=job[1]">Loading...</span>
 <span *ngIf="job[0]==job[1]">
-  <div class="page-header">
-    <h1>{{user.name}}</h1>
-  </div>
-  <div class="row menu">
-    <div class="col-lg-4 col-md-4 col-sm-2 col-xs-0"></div>
-    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-6">
-      <a href="/search">Search</a>&nbsp;&nbsp;
+  <span *ngIf="authorized">
+    <div class="page-header">
+      <h1 class="name">{{user.name}}</h1>
+    </div>
+    <div class="menu">
+      <a href="/home">Home</a>
       <a href="/{{user.id}}/dashboard">Dashboard</a>
+      <a href="/public-collections">Gallery</a>
+      <a href="/search">Search</a>
+      <a href="/logout">Logout</a>
     </div>
-    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-6">
-      <a *ngIf="user.name!='Guest'" href="/logout">Logout</a>
-      <a *ngIf="user.name=='Guest'" href="/login">Login</a>
-    </div>
-  </div>
 
-  <div class="row">
-    <div class="col-lg-1 col-md-1 col-sm-1 col-xs-0"></div>
-    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
-      <div class="card">
-        <div class="card-header">
-          <h3>{{nasa_object.metadata['AVAIL:Title']}}</h3>
-          <h6>{{nasa_object.metadata['AVAIL:DateCreated']}}</h6>
-          <h6>{{nasa_object.metadata['AVAIL:SecondaryCreator']}}</h6>
-        </div>
-        <div class="card-body">
-          <img src="{{nasa_object.asset.collection.items[0].href}}" class="display-image" />
-        </div>
-        <h3>Add This Image to A Collection</h3>
-        <div class="card-footer">
-          <form class="form-inline justify-content-center" (submit)="addToCollection($event, collectionId.value)">
-            <select #collectionId name="collectionId" class="form-control">
-              <option value="null" style="opacity:0.7;">Select a collection</option>
-              <option *ngFor="let collection of collections" value="{{collection._id}}">{{collection.name}}</option>
-            </select>&nbsp;&nbsp;
-            <button type="submit" role="button" class="btn btn-primary"> Add to Collection</button>
-          </form>
-          <br *ngIf="addSuc" />
-          <div *ngIf="addSuc" class="alert alert-success" role="alert">
-            Image added to collection!
+    <div class="row">
+      <div class="col-lg-1 col-md-1 col-sm-1 col-xs-0"></div>
+      <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
+        <div class="card">
+          <div class="card-header">
+            <h3>{{nasa_object.metadata['AVAIL:Title']}}</h3>
+            <h6>{{nasa_object.metadata['AVAIL:DateCreated']}}</h6>
+            <h6>{{nasa_object.metadata['AVAIL:SecondaryCreator']}}</h6>
+          </div>
+          <div class="card-body">
+            <img src="{{nasa_object.asset.collection.items[0].href}}" class="display-image" />
+          </div>
+          <h3>Add This Image to A Collection</h3>
+          <div class="card-footer">
+            <form class="form-inline justify-content-center" (submit)="addToCollection($event, collectionId.value)">
+              <select #collectionId name="collectionId" class="form-control">
+                <option value="null" style="opacity:0.7;">Select a collection</option>
+                <option *ngFor="let collection of collections" value="{{collection._id}}">{{collection.name}}</option>
+              </select>&nbsp;&nbsp;
+              <button type="submit" role="button" class="btn btn-primary"> Add to Collection</button>
+            </form>
+            <br *ngIf="addSuc" />
+            <div *ngIf="addSuc" class="alert alert-success" role="alert">
+              Image added to collection!
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-  <br />
-  <br />
-  <br />
+    <br />
+    <br />
+    <br />
+  </span>
+  <span *ngIf="!authorized">
+    <h1>Not Signed In</h1>
+    <p>To access this material, please <a href="/login">sign in</a> or <a href="/register">register</a>.</p>
+  </span>
 </span>

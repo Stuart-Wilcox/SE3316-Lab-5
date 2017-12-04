@@ -2,6 +2,12 @@ h1, a, div{
   text-align: center;
 }
 
+.page-header{
+  margin-top: 30px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
 .menu{
   margin-top: 30px;
   margin-bottom: 20px;

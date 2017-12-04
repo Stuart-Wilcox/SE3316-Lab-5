@@ -12,6 +12,7 @@ export class SearchComponent implements OnInit {
   loading: boolean;
   user: object;
   results: object;
+  authorized: boolean;
 
   constructor(private dashboardService:DashboardService, private searchService:SearchService) {
     this.loading=true;
@@ -43,6 +44,8 @@ export class SearchComponent implements OnInit {
            }
         },
         err=>{
+          this.authorized=false;
+          this.loading=false;
           console.log(err);
         }
       );
@@ -74,19 +77,18 @@ export class SearchComponent implements OnInit {
     if(token){
       this.dashboardService.getUserData(token).subscribe(
         data => {
-            this.loading=false;
+            this.authorized=true;
             this.user=data;
             this.loading=false;
         },
         err => {
+          console.log(err);
+          this.authorized=false;
           this.loading=false;
-              this.user={name:"An error occurred."};
-              console.log("err", err);
-              this.loading=false;
-          }
+        }
       );
     }else{
-      this.user={name:"Guest"};
+      this.authorized=false;
       this.loading=false;
     }
   }

@@ -12,6 +12,7 @@ export class ViewCollectionsComponent implements OnInit {
   user:object;
   collections:object;
   job:any;
+  authorized:boolean;
   constructor(private dashboardService:DashboardService, private viewCollectionService:ViewCollectionService) {
     this.user=null;
     this.collections = null;
@@ -39,10 +40,12 @@ export class ViewCollectionsComponent implements OnInit {
     this.dashboardService.getUserData(this.getCookie("token")).subscribe(
       data=>{
         this.user=data;
+        this.authorized=true;
         this.job[0]++;
       },
       err=>{
-        console.log(err);
+        this.authorized=false;
+        this.job[0]++;
       }
     );
 
@@ -52,7 +55,7 @@ export class ViewCollectionsComponent implements OnInit {
         this.job[0]++;
       },
       err=>{
-        console.log(err);
+        this.job[0]++;
       }
     );
   }

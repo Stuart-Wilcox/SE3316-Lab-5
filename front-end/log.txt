@@ -1,0 +1,65 @@
+commit c5c087ef7e8f0c1d8a09b8c7812721649fe61520
+Author: Stuart Wilcox <stuart_wilcox@outlook.com>
+Date:   Sun Dec 3 21:21:41 2017 -0500
+
+    Moved auth to its own module
+
+commit 8d5add9d817be9d988b239cc33202f05706be505
+Author: Stuart Wilcox <stuart_wilcox@outlook.com>
+Date:   Sun Dec 3 20:44:05 2017 -0500
+
+    Like collctions, public collections
+
+commit a700b166a5845e33461cf14113ad76a86f2168f7
+Author: Stuart Wilcox <stuart_wilcox@outlook.com>
+Date:   Sun Dec 3 15:00:33 2017 -0500
+
+    Can add images to collection
+
+commit 824f44eb46a52b62ade6c457b7ea8195eaa9eb78
+Author: Stuart Wilcox <stuart_wilcox@outlook.com>
+Date:   Sun Dec 3 00:15:45 2017 -0500
+
+    Image Viewing
+
+commit 310da19ce71e788a36546549633cfa2ce9871478
+Author: Stuart Wilcox <stuart_wilcox@outlook.com>
+Date:   Sat Dec 2 19:43:08 2017 -0500
+
+    Searching works
+
+commit ec9d9f28c0abca49e090d427c4eac279573df5d6
+Author: Stuart Wilcox <stuart_wilcox@outlook.com>
+Date:   Fri Dec 1 23:45:26 2017 -0500
+
+    Add and view collections; diaply in dashboard
+
+commit 583ea732cd96614a3e1663203824973b8e35796d
+Author: Stuart Wilcox <stuart_wilcox@outlook.com>
+Date:   Fri Dec 1 21:23:46 2017 -0500
+
+    Implemented auth/login/register and some collection
+
+commit 246fba920f634fffe5522de87e32a02bfcae2060
+Author: Stuart Wilcox <swilcox7@uwo.ca>
+Date:   Wed Nov 22 19:58:02 2017 +0000
+
+    Change proj structure + added angular
+
+commit 912f3fac49c55de9119fdc2ea3214a598491480b
+Author: Stuart Wilcox <swilcox7@uwo.ca>
+Date:   Wed Nov 22 17:18:23 2017 +0000
+
+    Added backend functionality for register and login
+
+commit e8cdd59d44e3a5c6a86a5098d84fe6983e79bb75
+Author: Stuart Wilcox <swilcox7@uwo.ca>
+Date:   Tue Nov 21 22:36:54 2017 +0000
+
+    Skeleton server and User object
+
+commit 5ff4e7b3525f7e04ddf7f76af22a5eee7c4ab453
+Author: Stuart Wilcox <swilcox7@uwo.ca>
+Date:   Mon Nov 20 18:56:38 2017 +0000
+
+    Initial commit

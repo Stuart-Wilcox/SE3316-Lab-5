@@ -17,6 +17,7 @@ export class ViewImageComponent implements OnInit {
   nasa_object: object;//two components: asset and metadata
   collections: object;
   addSuc: boolean;
+  authorized: boolean;
 
   constructor(private dashboardService: DashboardService, private router:Router, private viewImageService:ViewImageService, private viewCollectionService:ViewCollectionService) {
     this.asset_id = this.router.url.split("/")[2];
@@ -60,6 +61,7 @@ export class ViewImageComponent implements OnInit {
             this.viewCollectionService.getUserCollections(token, this.user['_id']).subscribe(
               data=>{
                 this.job[0]++;
+                this.authorized=true;
                 this.collections=data;
               },
               err=>{
@@ -74,7 +76,8 @@ export class ViewImageComponent implements OnInit {
       );
     }
     else{
-      //TODO: redirect to search
+      this.authorized=false;
+      this.job[0]+=2;
     }
 
     //make sure there is really an assetId

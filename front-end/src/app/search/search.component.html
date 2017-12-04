@@ -1,17 +1,15 @@
 <span *ngIf="loading">Loading...</span>
 <span *ngIf="!loading">
+  <span *ngIf="authorized">
   <div class="page-header">
-    <h1>{{user.name}}</h1>
+    <h1 class="name">{{user.name}}</h1>
   </div>
-  <div class="row menu">
-    <div class="col-lg-4 col-md-4 col-sm-2 col-xs-0"></div>
-    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-6">
-      <a href="/{{user.id}}/dashboard">Dashboard</a>
-    </div>
-    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-6">
-      <a *ngIf="user.name!='Guest'" href="/logout">Logout</a>
-      <a *ngIf="user.name=='Guest'" href="/login">Login</a>
-    </div>
+  <div class="menu">
+    <a href="/home">Home</a>
+    <a href="/{{user.id}}/dashboard">Dashboard</a>
+    <a href="/public-collections">Gallery</a>
+    <a href="/search">Search</a>
+    <a href="/logout">Logout</a>
   </div>
 
   <div class="row">
@@ -43,4 +41,9 @@
       </div>
     </div>
   </div>
+  </span>
+  <span *ngIf="!authorized">
+    <h1>Not Signed In</h1>
+    <p>To access this material, please <a href="/login">sign in</a> or <a href="/register">register</a>.</p>
+  </span>
 </span>
