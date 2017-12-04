@@ -54,7 +54,9 @@
           </div>
           <div class="card-body">
             <div *ngFor="let imageRow of images" class="_row">
-              <div *ngFor="let image of imageRow" class="_column"><img src="{{image}}" /></div>
+              <div *ngFor="let image of imageRow" class="_column">
+                <img src="{{image}}" />
+              </div>
             </div>
           </div>
         </div>

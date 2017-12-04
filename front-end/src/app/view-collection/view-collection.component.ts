@@ -98,15 +98,16 @@ export class ViewCollectionComponent implements OnInit {
 
   removeCollection(event){
     event.preventDefault();
-
-    this.viewCollectionService.removeCollection(this.getCookie("token"), this.collection['_id']).subscribe(
-      data=>{
-        this.router.navigate([`/${this.user['_id']}/dashboard`]);
-      },
-      err=>{
-        console.log(err);
-      }
-    );
+    if(window.confirm("Collection will be deleted")){
+      this.viewCollectionService.removeCollection(this.getCookie("token"), this.collection['_id']).subscribe(
+        data=>{
+          this.router.navigate([`/${this.user['_id']}/dashboard`]);
+        },
+        err=>{
+          console.log(err);
+        }
+      );
+    }
   }
 
 }

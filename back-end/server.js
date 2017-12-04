@@ -58,13 +58,31 @@ router.route("/register")
             return;
         }else{
           res.status(200).json({
-              url:"/accounts/activate/"+user._id
+              mesage:"Link sent"
           });
           /*SEND EMAIL TO PERSON*/
           mailer.sendMail(user.email, `http://localhost:4200/accounts/activate/${user._id}`);
         }
     });
 });
+
+router.route("/resend-validation")
+.post(function(req, res){
+  if(!req.body.email){
+    res.status(400).json({message:"No email included"});
+    return;
+  }
+
+  User.find({email:req.body.email}, function(err, user){
+    if(err){
+      res.status(400).json(err);
+    }else{
+      res.status(200).json({message:"Link sent"});
+
+      mailer.sendMail(user.email, `http://localhost:4200/accounts/activate/${user._id}`);
+    }
+  });
+})
 
 router.route("/login")
 .post(function(req, res, next){

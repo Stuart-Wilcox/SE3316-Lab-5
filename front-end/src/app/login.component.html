@@ -13,6 +13,8 @@
     </form>
     <br *ngIf="loginErr" />
     <div *ngIf="loginErr" class="alert alert-danger" ><span *ngIf="loginErr">{{loginErrMsg}}</span></div>
+    <button *ngIf="activationOption" (click)="resendLink($event, email.value)" class="btn btn-default">Resend Activation Link</button>
+    <div *ngIf="linkResent" class="alert alert-success">{{linkResent}}</div>
     <br/>
     <br />
     <p>

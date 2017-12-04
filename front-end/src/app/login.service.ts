@@ -13,4 +13,11 @@ export class LoginService {
     headers.append("Accept", "*/*");
     return this.http.post('/api/login', {email:email, password:password}, {headers:headers});
   }
+
+  resendActivationLink(email){
+    let headers = new HttpHeaders();
+    headers.append("Content-Type", "application/json");
+    headers.append("Accept", "*/*");
+    return this.http.post('/api/resend-validation', {email:email}, {headers:headers});
+  }
 }
