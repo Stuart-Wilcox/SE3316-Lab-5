@@ -4,7 +4,7 @@ let User = mongoose.model("User");
 
 
 let ctrlCollections = {
-  addCollection(req, res){
+  addCollection(req, res){/* POST /api/:id */
     if(!req.payload){
       res.status(401).json({message: "Must be signed in to make a collection"});
     }else{
@@ -23,6 +23,7 @@ let ctrlCollections = {
         collection.description = description;
         collection.public = visibility=="public";
         collection.user_id = req.payload._id;
+        collection.username = req.payload.name;
         collection.rating = 0;
 
         collection.save(function(err){
@@ -35,7 +36,7 @@ let ctrlCollections = {
       }
     }
   },
-  getCollections(req, res){
+  getCollections(req, res){/* GET /api/collections */
     Collection.find({public:true}).sort({rating:-1}).exec(function(err, collections){
       if(err){
         res.status(500).json(err);
@@ -44,31 +45,57 @@ let ctrlCollections = {
       }
     });
   },
-  getCollection(req, res){
-    let id = req.params.id;
-    Collection.findById(id, function(err, collection){
+  getTopCollections(req, res){/* GET /api/collections/top */
+    Collection.find({public:true}).sort({rating:-1}).limit(10).exec(function(err, collections){
       if(err){
-        res.status(400).json(err);
+        res.status(500).json(err);
+      }else{
+        res.status(200).json(collections);
       }
-      else{
-        if(collection.public){
-          //collection is public so we return it
-          res.status(200).json(collection);
-        }else{
-          //collection is private so we only return it if the owner requests it
-          if(!req.payload){
-            //not signed in
-            res.status(401).json({message:"Sign in to view"});
-          }else if(req.payload._id != collection.user_id){
-            res.status(401).json({message:"Private collection"});
-          }else{
+    });
+  },
+  getCollection(req, res){/* GET /api/collections/:id */
+    let id = req.params.id;
+    try{
+      auth(req, res);
+      Collection.findById(id, function(err, collection){
+        if(err){
+          res.status(400).json(err);
+        }
+        else{
+          if(collection.public){
+            //collection is public so we return it
             res.status(200).json(collection);
+          }else{
+            //collection is private so we only return it if the owner requests it
+            if(!req.payload){
+              //not signed in
+              res.status(401).json({message:"Sign in to view"});
+            }else if(req.payload._id != collection.user_id){
+              res.status(401).json({message:"Private collection"});
+            }else{
+              res.status(200).json(collection);
+            }
           }
         }
-      }
-    })
+      })
+    }catch(e){
+      Collection.findById(id, function(err, collection){
+        if(err){
+          res.status(400).json(err);
+        }
+        else{
+          if(collection.public){
+            //collection is public so we return it
+            res.status(200).json(collection);
+          }else{
+            res.status(401).json({message:"Private collection"});
+          }
+        }
+      })
+    }
   },
-  updateCollection(req, res){
+  updateCollection(req, res){/* PUT /api/collections/:id */
     //can only update a collection if signed in as the owner. visibility is irrelevant.
     if(!req.payload){
       //not signed in
@@ -110,7 +137,7 @@ let ctrlCollections = {
       });
     }
   },
-  deleteCollection(req, res){
+  deleteCollection(req, res){/* DELETE /api/collections/:id */
     //only the owner can remove collections, regardless of visibility
     if(!req.payload){
       res.status(401).json({message:"Must sign in to delete collections"});
@@ -135,7 +162,7 @@ let ctrlCollections = {
       });
     }
   },
-  upvoteCollection(req, res){
+  upvoteCollection(req, res){/* POST /api/collections/:id/upvote */
     //upvate a collection must not be owner, colection must be public and user must be authenticated
     if(!req.payload){
       //not authenticated
@@ -149,7 +176,7 @@ let ctrlCollections = {
         }else if(!collection.public){
           //collection is private so nobody can upvote it
           res.status(400).json({message:"Private collections cannot be upvoted"});
-        }else if(collection.user_id == res.payload._id){
+        }else if(collection.user_id == req.payload._id){
           //user must not be owner
           res.status(400).json({message:"Owner cannot upvote their own collection"});
         }else if(collection.upvoters.includes(req.payload._id)){
@@ -172,7 +199,7 @@ let ctrlCollections = {
       });
     }
   },
-  getUserCollections(req, res){
+  getUserCollections(req, res){/* GET /api/:user_id/collections */
     if(!req.payload){
       //not signed in
       res.status(401).json({message:"Must sign in to view collection"});
@@ -188,7 +215,7 @@ let ctrlCollections = {
       }).sort({rating: -1})
     }
   },
-  addImageToCollection(req, res){
+  addImageToCollection(req, res){/* POST /api/collections/:id */
     if(!req.payload){
       //not signed in
       res.status(401).json({message:"Must sign in to add images to collection"});

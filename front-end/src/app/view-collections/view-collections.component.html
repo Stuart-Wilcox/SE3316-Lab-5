@@ -1,35 +1,19 @@
-<div class="page-header"><h1>SE3316A - Lab 5</h1><h4>Created by Stuart Wilcox - swilcox7@uwo.ca</h4></div>
-<div class="row">
-  <div class="col-lg-3 col-md-3 col-sm-2 col-xs-0"></div>
-  <div class="col-lg-2 col-md-2 col-sm-3 col-xs-4">
-    <a href="/home">Home</a>
+
+<span *ngIf="job[0]!=job[1]">Loading...</span>
+<span *ngIf="job[0]==job[1]">
+  <h1 class="name">{{user.name}}</h1>
+  <div class="row menu">
+    <div class="col-lg-4 col-md-4 col-sm-2 col-xs-0"></div>
+    <div class="col-lg-4 col-md-4 col-sm-8 col-xs-12">
+      <a href="/logout">Logout</a> &nbsp;&nbsp;<a href="/search">Search</a>
+    </div>
   </div>
-  <div class="col-lg-2 col-md-2 col-sm-2 col-xs-4">
-    <a href="/login">Login</a>
-  </div>
-  <div class="col-lg-2 col-md-2 col-sm-3 col-xs-4">
-    <a href="/register">Register</a>
-  </div>
-</div>
-<div class="row content">
-  <div class="col-lg-3 col-md-2 col-sm-1 col-xs-0"></div>
-  <div class="col-lg-6 col-md-8 col-sm-10 col-xs-12">
-    This webapp was developed by Stuart Wilcox (swilcox7) for Lab 5 of SE3316A.
-    Users, once registered and signed in, can maintain collections of photos
-    available from NASA. Users can allow their collections to be public or
-    private to allow them to be viewed and rated by other users. Users can also
-    search through images to add them to their collections. Below are the top
-    10 highest rated collections.
-  </div>
-</div>
-<br />
-<br />
 <div class="row">
   <div class="col-lg-3 col-md-2 col-sm-1 col-xs-0"></div>
   <div class="col-lg-6 col-md-8 col-sm-10 col-xs-12">
     <div class="card">
       <div class="card-header">
-        Top 10 Public Collections
+        <h3>All Public Collections</h3>
       </div>
       <div class="card-body">
         <span *ngIf="collections">
@@ -58,3 +42,4 @@
     </div>
   </div>
 </div>
+</span>

@@ -3,6 +3,7 @@ let Schema = mongoose.Schema;
 
 let CollectionSchema = Schema({
   name: String,
+  username: String,
   description: String,
   public: Boolean,
   user_id: String,

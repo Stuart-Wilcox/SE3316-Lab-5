@@ -1,4 +1,29 @@
-h1, a, div, p{
+.page-header{
+  margin-top: 30px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+div, p{
+  text-align: center;
+}
+
+a{
+  text-decoration: none;
+}
+
+.content{
+  margin-top: 30px;
+}
+
+.display-image{
+  max-height: 200px;
+  max-width: 200px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+h1, a, div{
   text-align: center;
 }
 

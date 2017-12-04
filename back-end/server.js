@@ -176,11 +176,14 @@ router.route("/profile")
 
 router.route("/collections")
 .post(auth, ctrlCollections.addCollection)
-.get(ctrlCollections.getCollections);
+.get(auth, ctrlCollections.getCollections);
+
+router.route("/collections/top")
+.get(ctrlCollections.getTopCollections);
 
 router.route("/collections/:id")
 .post(auth, ctrlCollections.addImageToCollection)
-.get(auth, ctrlCollections.getCollection)
+.get(ctrlCollections.getCollection)
 .put(auth, ctrlCollections.updateCollection)
 .delete(auth, ctrlCollections.deleteCollection);
 

@@ -15,6 +15,7 @@ import { AddCollectionComponent } from './add-collection/add-collection.componen
 import { ViewCollectionComponent } from './view-collection/view-collection.component';
 import { SearchComponent } from './search/search.component';
 import { ViewImageComponent } from './view-image/view-image.component';
+import { ViewCollectionsComponent } from './view-collections/view-collections.component';
 
 const appRoutes:Routes = [
   {
@@ -32,6 +33,10 @@ const appRoutes:Routes = [
   {
     path:'search',
     component: SearchComponent
+  },
+  {
+    path:'public-collections',
+    component: ViewCollectionsComponent
   },
   {
     path: ':id/dashboard',
@@ -71,7 +76,8 @@ const appRoutes:Routes = [
     AddCollectionComponent,
     ViewCollectionComponent,
     SearchComponent,
-    ViewImageComponent
+    ViewImageComponent,
+    ViewCollectionsComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),

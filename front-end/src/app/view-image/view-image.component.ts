@@ -16,12 +16,14 @@ export class ViewImageComponent implements OnInit {
   user:object;
   nasa_object: object;//two components: asset and metadata
   collections: object;
+  addSuc: boolean;
 
   constructor(private dashboardService: DashboardService, private router:Router, private viewImageService:ViewImageService, private viewCollectionService:ViewCollectionService) {
     this.asset_id = this.router.url.split("/")[2];
     this.user = null;
     this.job = [];
     this.collections = null;
+    this.addSuc = false;
   }
 
   getCookie(cname) {
@@ -127,8 +129,8 @@ export class ViewImageComponent implements OnInit {
       return;
     }
 
-    console.log(collectionId);
-    console.log(this.nasa_object['asset'].collection.items[0].href);
+    //console.log(collectionId);
+    //console.log(this.nasa_object['asset'].collection.items[0].href);
 
     let image_id = this.nasa_object['asset'].collection.items[0].href;
 
@@ -136,8 +138,10 @@ export class ViewImageComponent implements OnInit {
     //add the image (url=image_id) to the collection (collectionId)
     this.viewCollectionService.addImageToCollection(this.getCookie("token"), collectionId, image_id).subscribe(
       data=>{
-        //TODO: finish this
         console.log(data);
+        if(data['message']=="Successfully added image to collection"){
+          this.addSuc = true;
+        }
       },
       err=>{
         console.log(err);

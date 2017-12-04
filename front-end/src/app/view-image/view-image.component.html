@@ -6,6 +6,7 @@
   <div class="row menu">
     <div class="col-lg-4 col-md-4 col-sm-2 col-xs-0"></div>
     <div class="col-lg-2 col-md-2 col-sm-4 col-xs-6">
+      <a href="/search">Search</a>&nbsp;&nbsp;
       <a href="/{{user.id}}/dashboard">Dashboard</a>
     </div>
     <div class="col-lg-2 col-md-2 col-sm-4 col-xs-6">
@@ -35,8 +36,15 @@
             </select>&nbsp;&nbsp;
             <button type="submit" role="button" class="btn btn-primary"> Add to Collection</button>
           </form>
+          <br *ngIf="addSuc" />
+          <div *ngIf="addSuc" class="alert alert-success" role="alert">
+            Image added to collection!
+          </div>
         </div>
       </div>
     </div>
   </div>
+  <br />
+  <br />
+  <br />
 </span>

@@ -49,7 +49,7 @@ export class AddCollectionComponent implements OnInit {
                 if(data.id == urlId){
                   this.user=data;
                 }else{
-                  this.router.navigate([`/${data['id']}/dashboard/`]);
+                  this.router.navigate([`/${this.user['_id']}/dashboard/`]);
                 }
             },
             err => {
@@ -80,12 +80,11 @@ export class AddCollectionComponent implements OnInit {
         description = description.replace("<", "&lt;").replace(">", "&gt");
         this.err = false;
         this.errMsg = "";
-        console.log(name, description, visibility);
         //invoke addCollectionService to add collection
         this.addCollectionService.addCollection(this.getCookie("token"), name, description, visibility).subscribe(
         data=>{
           if(data['message']=="Collection created"){
-            this.router.navigate([`/${this.user['_id']}/dashboard`]);
+            this.router.navigate([`/${this.user['id']}/dashboard`]);
           }
         },
         err=>{

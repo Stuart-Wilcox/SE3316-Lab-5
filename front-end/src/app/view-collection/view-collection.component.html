@@ -1,5 +1,6 @@
-<span *ngIf="loading">Loading...</span>
-<span *ngIf="!loading">
+<span *ngIf="job[0]!=job[1]">Loading...</span>
+<span *ngIf="job[0]==job[1]">
+  <span *ngIf="authorized">
   <div class="page-header">
     <h1>{{user.name}}</h1>
   </div>
@@ -12,7 +13,6 @@
       <a href="/logout">Logout</a>
     </div>
   </div>
-
   <div class="row">
     <div class="col-lg-1 col-md-1 col-sm-1 col-xs-0"></div>
     <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
@@ -22,13 +22,41 @@
           <h6 *ngIf="collection.public">Public</h6>
           <h6 *ngIf="!collection.public">Private</h6>
           <h6>Rating: {{collection.rating}}</h6>
+          <span *ngIf="collection.public">
+            <button *ngIf="collection.user_id==user.id" class="btn btn-primary" disabled>Like</button>
+            <button *ngIf="collection.user_id!=user.id" class="btn btn-primary" (click)="likeCollection($event)">Like</button>
+          </span>
         </div>
         <div class="card-body">
           <div *ngFor="let imageRow of images" class="_row">
             <div *ngFor="let image of imageRow" class="_column"><img src="{{image}}" /></div>
           </div>
         </div>
+        <span *ngIf="collection.public">
+          <div *ngIf="collection.user_id==user.id" class="card-footer">
+            <button class="btn btn-danger" (click)="removeCollection($event)">Delete</button>
+          </div>
+        </span>
       </div>
     </div>
   </div>
+  </span>
+  <span *ngIf="!authorized">
+    <h1>Not Signed In</h1>
+    <p>To vote on this collection, please <a href="/login">sign in</a> or <a href="/register">register</a>.</p>
+    <div class="card">
+      <div class="card-header">
+        <h3>{{collection.name}}</h3>
+        <h6 *ngIf="collection.public">Public</h6>
+        <h6 *ngIf="!collection.public">Private</h6>
+        <h6>Rating: {{collection.rating}}</h6>
+      </div>
+      <div class="card-body">
+        <div *ngFor="let imageRow of images" class="_row">
+          <div *ngFor="let image of imageRow" class="_column"><img src="{{image}}" /></div>
+        </div>
+      </div>
+    </div>
+
+  </span>
 </span>
