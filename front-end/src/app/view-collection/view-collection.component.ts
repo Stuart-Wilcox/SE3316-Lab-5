@@ -16,6 +16,7 @@ export class ViewCollectionComponent implements OnInit {
   images: object;
   authorized: boolean;
   alreadyLiked: boolean;
+  public:boolean;
   constructor(private viewCollectionService: ViewCollectionService, private dashboardService: DashboardService, private router:Router) {
     this.job = [];
     this.user = null;
@@ -67,32 +68,53 @@ export class ViewCollectionComponent implements OnInit {
 
     this.dashboardService.getUserData(token).subscribe(
       data => {
+        console.log(data);
             this.user=data;
             this.authorized = true;
             this.job[0]++;
+
+            this.viewCollectionService.getCollection(token, collection_id).subscribe(
+              data=>{
+                this.collection = data;
+                this.public = this.collection['public'];
+                for(let i = 0; i < this.collection['image_id'].length; i++){
+                  this.images[Math.floor(i/4)][i%4]=this.collection['image_id'][i];
+                }
+                if(this.authorized){
+                  this.alreadyLiked = this.collection['upvoters'].includes(this.user['id']);
+                }
+                this.job[0]++;
+              },
+              err=>{
+                this.authorized=false;
+                this.public = false;
+                console.log(err);
+                this.job[0]++;
+              }
+            );
       },
       err => {
+        console.log(err);
             this.job[0]++;
             this.authorized = false;
 
+            this.viewCollectionService.getPublicCollection(collection_id).subscribe(
+              data=>{
+                this.collection = data;
+                for(let i = 0; i < this.collection['image_id'].length; i++){
+                  this.images[Math.floor(i/4)][i%4]=this.collection['image_id'][i];
+                }
+                if(this.authorized){
+                  this.alreadyLiked = this.collection['upvoters'].includes(this.user['id']);
+                }
+                this.job[0]++;
+              },
+              err=>{
+                console.log(err);
+                this.job[0]++;
+              }
+            );
         }
-    );
-
-    this.viewCollectionService.getCollection(token, collection_id).subscribe(
-      data=>{
-        this.collection = data;
-        for(let i = 0; i < this.collection['image_id'].length; i++){
-          this.images[Math.floor(i/4)][i%4]=this.collection['image_id'][i];
-        }
-        if(this.authorized){
-          this.alreadyLiked = this.collection['upvoters'].includes(this.user['id']);
-        }
-        this.job[0]++;
-      },
-      err=>{
-        console.log(err);
-        this.job[0]++;
-      }
     );
   }
 

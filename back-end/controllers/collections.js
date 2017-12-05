@@ -56,48 +56,42 @@ let ctrlCollections = {
   },
   getCollection(req, res){/* GET /api/collections/:id */
     let id = req.params.id;
-    try{
-      console.log(auth(req, res));
-      Collection.findById(id, function(err, collection){
-        if(err){
-          res.status(400).json(err);
-        }
-        else{
-          if(collection.public){
-            //collection is public so we return it
-            res.status(200).json(collection);
-          }else{
-            //collection is private so we only return it if the owner requests it
-            if(!req.payload){
-              //not signed in
-              res.status(401).json({message:"Sign in to view"});
-            }else if(req.payload._id != collection.user_id){
-              console.log(req.payload._id);
-              console.log(collection.user_id);
-              res.status(401).json({message:"Private collection"});
-            }else{
-              res.status(200).json(collection);
-            }
-          }
-        }
-      })
-    }catch(e){
-      Collection.findById(id, function(err, collection){
-        if(err){
-          res.status(400).json(err);
-        }
-        else{
-          if(collection.public){
-            //collection is public so we return it
-            res.status(200).json(collection);
-          }else{
-            //console.log(req.payload._id);
-            //console.log(collection.user_id);
+    Collection.findById(id, function(err, collection){
+      if(err){
+        res.status(400).json(err);
+      }
+      else{
+        if(collection.public){
+          //collection is public so we return it
+          res.status(200).json(collection);
+        }else{
+          //collection is private so we only return it if the owner requests it
+          if(req.payload._id != collection.user_id){
             res.status(401).json({message:"Private collection"});
+          }else{
+            res.status(200).json(collection);
           }
         }
-      })
-    }
+      }
+    });
+  },
+  getPublicCollection(req, res){
+    let id = req.params.id;
+    Collection.findById(id, function(err, collection){
+      if(err){
+        res.status(400).json(err);
+      }
+      else{
+        if(collection.public){
+          //collection is public so we return it
+          res.status(200).json(collection);
+        }else{
+          //console.log(req.payload._id);
+          //console.log(collection.user_id);
+          res.status(401).json({message:"Private collection"});
+        }
+      }
+    })
   },
   updateCollection(req, res){/* PUT /api/collections/:id */
     //can only update a collection if signed in as the owner. visibility is irrelevant.

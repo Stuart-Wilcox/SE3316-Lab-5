@@ -39,7 +39,7 @@
     </div>
   </div>
   </span>
-  <span *ngIf="!authorized">
+  <span *ngIf="!authorized && public">
     <h1>Not Signed In</h1>
     <p>To vote on this collection, please <a href="/login">sign in</a> or <a href="/register">register</a>.</p>
     <div class="row">
@@ -62,5 +62,9 @@
         </div>
       </div>
     </div>
+  </span>
+  <span *ngIf="!public">
+    <h1>Private Collection</h1>
+    <p>The owner of this collection has made it private. You cannot view it.</p>
   </span>
 </span>

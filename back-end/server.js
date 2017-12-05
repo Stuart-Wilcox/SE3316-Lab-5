@@ -151,9 +151,12 @@ router.route("/collections/top")
 
 router.route("/collections/:id")
 .post(auth, ctrlCollections.addImageToCollection)
-.get(ctrlCollections.getCollection)
+.get(auth, ctrlCollections.getCollection)
 .put(auth, ctrlCollections.updateCollection)
 .delete(auth, ctrlCollections.deleteCollection);
+
+router.route("/collections/public/:id")
+.get(ctrlCollections.getPublicCollection);
 
 router.route("/collections/:id/upvote")
 .post(auth, ctrlCollections.upvoteCollection);

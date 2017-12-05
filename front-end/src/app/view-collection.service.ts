@@ -33,6 +33,14 @@ export class ViewCollectionService {
     return this.http.get(`/api/collections/${id}`, {headers:headers});
   }
 
+  getPublicCollection(id){
+    let headers = new HttpHeaders();
+    headers = headers.append("Content-Type", "application/json");
+    headers = headers.append("Accept", "*/*");
+
+    return this.http.get(`/api/collections/public/${id}`, {headers:headers});
+  }
+
   getUserCollections(token, user_id){
     let headers = new HttpHeaders();
     headers = headers.append("Cookie", "token="+token);
